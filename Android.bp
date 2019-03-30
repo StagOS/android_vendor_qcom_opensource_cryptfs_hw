@@ -10,11 +10,22 @@ commonSharedLibraries = [
 
 cc_library_shared {
     name: "libcryptfs_hw",
-    header_libs: ["qseecom-kernel-headers",
+    header_libs: ["generated_kernel_headers",
                   "libhardware_headers"],
     cflags: ["-DCONFIG_HW_DISK_ENCRYPTION"],
     srcs: sourceFiles,
     shared_libs: commonSharedLibraries,
+
+    product_variables: {
+        stag: {
+            should_skip_waiting_for_qsee: {
+                cflags: ["-DSKIP_WAITING_FOR_QSEE"],
+            },
+            device_support_legacy_hwfde: {
+                cflags: ["-DLEGACY_HW_DISK_ENCRYPTION"],
+            },
+        },
+    },
 
     owner: "qti",
 }
